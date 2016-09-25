@@ -24,8 +24,8 @@ class Generate_Sub_Command {
 	 * [--referral_id=<ID|id_list>]
 	 * : The referral ID or a comma-separated list of referral IDs to associate visits with.
 	 *
-	 * [--with_referral=<bool>]
-	 * : Whether to associate a referral with each generated visit. Default false.
+	 * [--with_referral=<yes|no>]
+	 * : Whether to associate a referral with each generated visit. Default 'no'.
 	 *
 	 * [--referrer=<URL>]
 	 * : URL to set as the referrer for generated visits. Default is empty (direct).
@@ -38,8 +38,8 @@ class Generate_Sub_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Add meta to every generated user
-	 *     wp user generate --format=ids | xargs -0 -d ' ' -I % wp user meta add % foo bar
+	 *     # Generate 2 visits for affiliate ID 20, each with a referral (converted).
+	 *     wp affwp visit generate --count=2 --affiliate_id=20 --with_referral=yes
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$defaults = array(

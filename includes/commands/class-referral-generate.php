@@ -26,8 +26,8 @@ class Generate_Sub_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Add meta to every generated user
-	 *     wp user generate --format=ids | xargs -0 -d ' ' -I % wp user meta add % foo bar
+	 *     # Generate 3 referrals each for affiliate IDs 1, 2, and 3.
+	 *     wp affwp referral generate --count=3 --affiliate_id=1,2,3
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$defaults = array(

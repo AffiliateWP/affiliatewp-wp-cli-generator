@@ -29,8 +29,8 @@ class Generate_Sub_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Add meta to every generated user
-	 *     wp user generate --format=ids | xargs -0 -d ' ' -I % wp user meta add % foo bar
+	 *     # Generate 1 creative and give it a URL of http://affiliatewp.com
+	 *     wp affwp creative generate --creative_url=http://affiliatewp.com
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$defaults = array(

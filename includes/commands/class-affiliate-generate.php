@@ -38,8 +38,8 @@ class Generate_Sub_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Add meta to every generated user
-	 *     wp user generate --format=ids | xargs -0 -d ' ' -I % wp user meta add % foo bar
+	 *     # Generate 3 affiliates (and users) and give them each two generated, unconverted visits.
+	 *     wp affwp affiliate generate --count=3 --visits=2
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		global $blog_id;
