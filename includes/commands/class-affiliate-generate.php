@@ -38,7 +38,7 @@ class Generate_Sub_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Generate 3 affiliates (and users) and give them each two generated, unconverted visits.
+	 *     # Generate 3 affiliates (and users) and give them each two generated, converted visits.
 	 *     wp affwp affiliate generate --count=3 --visits=2
 	 */
 	public function __invoke( $args, $assoc_args ) {
