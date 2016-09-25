@@ -11,7 +11,7 @@ use \WP_CLI\Utils;
 class Generate_Sub_Command {
 
 	/**
-	 * Generate users.
+	 * Generate visits.
 	 *
 	 * ## OPTIONS
 	 *
