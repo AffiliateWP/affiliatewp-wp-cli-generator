@@ -18,6 +18,10 @@ class Generate_Sub_Command {
 	 * [--count=<number>]
 	 * : How many visits to generate PER affiliate. Default: 100
 	 *
+	 * [--status=<status>]
+	 * : Referral status. Accepts. 'paid', 'unpaid', 'pending', 'rejected', or 'random'.
+	 * If random, one of the four statuses will be chosen at random. Default 'unpaid'.
+	 *
 	 * [--affiliate_id=<ID|id_list>]
 	 * : The affiliate ID or a comma-separated list of affiliate IDs to associate visits with.
 	 *
@@ -44,6 +48,7 @@ class Generate_Sub_Command {
 	public function __invoke( $args, $assoc_args ) {
 		$defaults = array(
 			'count'         => 10,
+			'status'        => 'unpaid',
 			'affiliate_id'  => 0,
 			'referral_id'   => 0,
 			'with_referral' => 'no',
@@ -91,15 +96,21 @@ class Generate_Sub_Command {
 				'referrer'     => $assoc_args['referrer']
 			);
 
-			if ( 'yes' === $assoc_args['with_referral'] ) {
-				$args['referral_id'] = affwp_add_referral( array(
-					'affiliate_id' => $affiliate_id,
-					'amount'       => $this->random_float( 0, 20 ),
-					'status'       => $statuses[ rand( 0, 3 ) ],
-				) );
-			}
-
 			for ( $i = 1; $i <= $assoc_args['count']; $i++ ) {
+				if ( 'yes' === $assoc_args['with_referral'] ) {
+					if ( 'random' === $assoc_args['status'] ) {
+						$status = $statuses[ rand( 0, 3 ) ];
+					} else {
+						$status = $assoc_args['status'];
+					}
+
+					$args['referral_id'] = affwp_add_referral( array(
+						'affiliate_id' => $affiliate_id,
+						'amount'       => $this->random_float( 0, 20 ),
+						'status'       => $status,
+					) );
+				}
+
 				$visit_id = affiliate_wp()->visits->add( $args );
 
 				$visits[ $affiliate_id ][] = $visit_id;
