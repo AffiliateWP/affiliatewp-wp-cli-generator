@@ -74,20 +74,13 @@ class Generate_Sub_Command {
 		foreach ( $affiliate_ids as $affiliate_id ) {
 
 			if ( 'progress' === $format ) {
-				$unconverted_prompt = sprintf( 'Generating %d unconverted visit(s) for affiliate #%d',
-					$assoc_args['count'],
-					$affiliate_id
-				);
+				if ( 'yes' === $assoc_args['with_referral'] ) {
+					$message = 'Generating %d converted visit(s) for affiliate #%d';
+				} else {
+					$message = 'Generating %d unconverted visit(s) for affiliate #%d';
+				}
 
-				$converted_prompt = sprintf( 'Generating %d converted visit(s) for affiliate #%d',
-					$assoc_args['count'],
-					$affiliate_id
-				);
-
-				$notify = \WP_CLI\Utils\make_progress_bar(
-					'yes' === $assoc_args['with_referral'] ? $converted_prompt : $unconverted_prompt,
-					$assoc_args['count']
-				);
+				$notify = \WP_CLI\Utils\make_progress_bar( sprintf( $message, $assoc_args['count'], $affiliate_id ) );
 			}
 
 			$args = array(
