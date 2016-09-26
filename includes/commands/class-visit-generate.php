@@ -58,6 +58,10 @@ class Generate_Sub_Command {
 		$affiliate_ids = wp_parse_id_list( $assoc_args['affiliate_id'] );
 		$referral_ids  = wp_parse_id_list( $assoc_args['referral_ids'] );
 
+		if ( empty( $affiliate_ids ) ) {
+			\WP_CLI::error( 'At least one affiliate ID must be specified via --affiliate_id to generate visits against.' );
+		}
+
 		$notify    = false;
 		$visits    = array();
 		$statuses  = array( 'paid', 'unpaid', 'pending', 'rejected' );
