@@ -42,11 +42,8 @@ class Generate_Sub_Command {
 	 *     wp affwp affiliate generate --count=3 --visits=2
 	 */
 	public function __invoke( $args, $assoc_args ) {
-		global $blog_id;
-
 		$defaults = array(
 			'count'     => 10,
-			'status'    => affiliate_wp()->settings->get( 'require_approval' ) ? 'pending' : 'active',
 			'rate'      => '',
 			'rate_type' => '',
 			'visits'    => 0,
@@ -77,8 +74,10 @@ class Generate_Sub_Command {
 
 		$user_ids = array();
 
+		$mid = rand( 100, 10000 );
+
 		for ( $i = $total; $i < $limit; $i++ ) {
-			$login = sprintf( 'affwp_user_%d_%d', $blog_id, $i );
+			$login = sprintf( 'affwp_user_%d_%d', $mid, $i );
 			$name = "AffWP User $i";
 
 			$user_ids[] = wp_insert_user( array(
@@ -106,6 +105,7 @@ class Generate_Sub_Command {
 
 		$rate      = empty( $assoc_args['rate'] ) ? '' : sanitize_text_field( $assoc_args['rate'] );
 		$rate_type = empty( $assoc_args['rate_type'] ) ? '' : sanitize_text_field( $assoc_args['rate_type'] );
+		$status    = empty( $assoc_args['status'] ) ? 'active' : sanitize_text_field( $assoc_args['status'] );
 
 		if ( 'progress' === $format ) {
 			$notify = \WP_CLI\Utils\make_progress_bar(
@@ -116,12 +116,14 @@ class Generate_Sub_Command {
 
 		foreach ( $user_ids as $user_id ) {
 
-			$affiliate_ids[] = affwp_add_affiliate( array(
-				'status'    => empty( $assoc_args['status'] ) ? 'active' : $assoc_args['status'],
+			$args = array(
+				'status'    => $status,
 				'user_id'   => $user_id,
 				'rate'      => $rate,
 				'rate_type' => $rate_type,
-			) );
+			);
+
+			$affiliate_ids[] = affiliate_wp()->affiliates->add( $args );
 
 			if ( 'progress' === $format ) {
 				$notify->tick();
