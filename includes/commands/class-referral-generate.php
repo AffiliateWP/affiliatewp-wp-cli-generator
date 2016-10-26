@@ -21,6 +21,9 @@ class Generate_Sub_Command {
 	 * [--affiliate_id=<ID|id_list>]
 	 * : The affiliate ID or a comma-separated list of affiliate IDs to associate referrals with.
 	 *
+	 * [--status=<referral_status>]
+	 * : The referral status to give generated referrals. If ommitted, statuses will be random.
+	 *
 	 * [--format=<format>]
 	 * : Accepted values: progress, ids. Default: ids.
 	 *
@@ -38,6 +41,7 @@ class Generate_Sub_Command {
 		$assoc_args = array_merge( $defaults, $assoc_args );
 
 		$format = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'progress' );
+		$status = \WP_CLI\Utils\get_flag_value( $assoc_args, 'status',         '' );
 
 		$affiliate_ids = wp_parse_id_list( $assoc_args['affiliate_id'] );
 
@@ -62,10 +66,14 @@ class Generate_Sub_Command {
 			}
 
 			for ( $i = 1; $i <= $assoc_args['count']; $i++ ) {
+				if ( empty( $status ) ) {
+					$status = $statuses[ rand( 0, 3 ) ];
+				}
+
 				$referrals[ $affiliate_id ][] = affwp_add_referral( array(
 					'affiliate_id' => $affiliate_id,
 					'amount'       => $this->random_float( 0, 20 ),
-					'status'       => $statuses[ rand( 0, 3 ) ],
+					'status'       => $status,
 				) );
 
 				if ( 'progress' === $format ) {
