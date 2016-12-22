@@ -98,6 +98,9 @@ final class AffiliateWP_Generate_Sub_Commands {
 		require_once self::$plugin_dir . 'includes/commands/class-creative-generate.php';
 		require_once self::$plugin_dir . 'includes/commands/class-referral-generate.php';
 		require_once self::$plugin_dir . 'includes/commands/class-visit-generate.php';
+
+		// Third-parties.
+		require_once self::$plugin_dir . 'includes/commands/class-wp-affiliate-generate.php';
 	}
 
 	/**
@@ -111,6 +114,9 @@ final class AffiliateWP_Generate_Sub_Commands {
 		\WP_CLI::add_command( 'affwp creative generate',  'AffWP\Creative\CLI\Generate_Sub_Command'  );
 		\WP_CLI::add_command( 'affwp referral generate',  'AffWP\Referral\CLI\Generate_Sub_Command'  );
 		\WP_CLI::add_command( 'affwp visit generate',     'AffWP\Visit\CLI\Generate_Sub_Command'     );
+
+		// Third-parties.
+		\WP_CLI::add_command( 'affwp wp-affiliate generate', 'AffWP\WP_Affiliate\CLI\Generate_Sub_Command' );
 	}
 }
 
