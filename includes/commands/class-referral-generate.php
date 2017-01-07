@@ -43,11 +43,11 @@ class Generate_Sub_Command {
 		$format = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'progress' );
 		$status = \WP_CLI\Utils\get_flag_value( $assoc_args, 'status',         '' );
 
-		$affiliate_ids = wp_parse_id_list( $assoc_args['affiliate_id'] );
-
-		if ( empty( $affiliate_ids ) ) {
+		if ( empty( $assoc_args['affiliate_ids'] ) ) {
 			\WP_CLI::error( 'At least one affiliate ID must be specified via --affiliate_id to generate referrals against.' );
 		}
+
+		$affiliate_ids = wp_parse_id_list( $assoc_args['affiliate_id'] );
 
 		$notify    = false;
 		$statuses  = array( 'paid', 'unpaid', 'pending', 'rejected' );
