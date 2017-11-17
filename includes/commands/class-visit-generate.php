@@ -80,7 +80,10 @@ class Generate_Sub_Command {
 					$message = 'Generating %d unconverted visit(s) for affiliate #%d';
 				}
 
-				$notify = \WP_CLI\Utils\make_progress_bar( sprintf( $message, $assoc_args['count'], $affiliate_id ) );
+				$notify = \WP_CLI\Utils\make_progress_bar(
+					sprintf( $message, $assoc_args['count'], $affiliate_id ),
+					$assoc_args['count']
+				);
 			}
 
 			$args = array(
