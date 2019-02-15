@@ -31,6 +31,9 @@ class Generate_Sub_Command {
 	 * [--with_referral=<yes|no>]
 	 * : Whether to associate a referral with each generated visit. Default 'no'.
 	 *
+	 * [--campaign=<campaign>]
+	 * : The campaign to assign generated referrals. If omitted, no campaign will be assigned.
+	 *
 	 * [--referrer=<URL>]
 	 * : URL to set as the referrer for generated visits. Default is empty (direct).
 	 *
@@ -44,6 +47,9 @@ class Generate_Sub_Command {
 	 *
 	 *     # Generate 2 visits for affiliate ID 20, each with a referral (converted).
 	 *     wp affwp visit generate --count=2 --affiliate_id=20 --with_referral=yes
+	 *
+	 *     # Generate 20 visits for affiliate ID 10, each with a referral (converted).
+	 *     wp affwp visit generate --count=20 --affiliate_id=10 --with_referral=yes
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$defaults = array(
@@ -54,6 +60,7 @@ class Generate_Sub_Command {
 			'with_referral' => 'no',
 			'visit_url'     => site_url( 'cli' ),
 			'referrer'      => '',
+			'campaign'      => '',
 		);
 
 		$assoc_args = array_merge( $defaults, $assoc_args );
@@ -89,7 +96,8 @@ class Generate_Sub_Command {
 			$args = array(
 				'affiliate_id' => $affiliate_id,
 				'url'          => $assoc_args['visit_url'],
-				'referrer'     => $assoc_args['referrer']
+				'referrer'     => $assoc_args['referrer'],
+				'campaign'     => $assoc_args['campaign']
 			);
 
 			for ( $i = 1; $i <= $assoc_args['count']; $i++ ) {
@@ -104,6 +112,7 @@ class Generate_Sub_Command {
 						'affiliate_id' => $affiliate_id,
 						'amount'       => $this->random_float( 0, 20 ),
 						'status'       => $status,
+						'campaign'     => $assoc_args['campaign']
 					) );
 				}
 
