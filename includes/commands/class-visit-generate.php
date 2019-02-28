@@ -22,6 +22,9 @@ class Generate_Sub_Command {
 	 * : Referral status. Accepts. 'paid', 'unpaid', 'pending', 'rejected', or 'random'.
 	 * If random, one of the four statuses will be chosen at random. Default 'unpaid'.
 	 *
+	 * [--campaign=<campaign>]
+	 * : Campaign to associate the visit with. Accepts any single word.
+	 *
 	 * [--affiliate_id=<ID|id_list>]
 	 * : The affiliate ID or a comma-separated list of affiliate IDs to associate visits with.
 	 *
@@ -49,6 +52,7 @@ class Generate_Sub_Command {
 		$defaults = array(
 			'count'         => 10,
 			'status'        => 'unpaid',
+			'campaign'      => '',
 			'affiliate_id'  => 0,
 			'referral_id'   => 0,
 			'with_referral' => 'no',
@@ -89,7 +93,8 @@ class Generate_Sub_Command {
 			$args = array(
 				'affiliate_id' => $affiliate_id,
 				'url'          => $assoc_args['visit_url'],
-				'referrer'     => $assoc_args['referrer']
+				'referrer'     => $assoc_args['referrer'],
+				'campaign'     => $assoc_args['campaign'],
 			);
 
 			for ( $i = 1; $i <= $assoc_args['count']; $i++ ) {
@@ -103,6 +108,7 @@ class Generate_Sub_Command {
 					$args['referral_id'] = affwp_add_referral( array(
 						'affiliate_id' => $affiliate_id,
 						'amount'       => $this->random_float( 0, 20 ),
+						'campaign'     => $assoc_args['campaign'],
 						'status'       => $status,
 					) );
 				}
