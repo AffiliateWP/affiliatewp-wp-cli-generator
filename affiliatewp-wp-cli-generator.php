@@ -3,8 +3,8 @@
  * Plugin Name: AffiliateWP WP-CLI Generate Commands
  * Description: Adds generate sub-commands for affiliates, creatives, payouts, referrals, and visits.
  * Plugin URI: https://affiliatewp.com
- * Author URI: https://affiliatewp.com
- * Author: AffiliateWP, LLC
+ * Author: Sandhills Development, LLC
+ * Author URI: https://sandhillsdev.com
  * Version: 1.0
  */
 
