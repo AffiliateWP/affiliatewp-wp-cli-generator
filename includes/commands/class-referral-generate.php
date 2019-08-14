@@ -24,6 +24,13 @@ class Generate_Sub_Command {
 	 * [--status=<referral_status>]
 	 * : The referral status to give generated referrals. If ommitted, statuses will be random.
 	 *
+	 * [--date=<date>]
+	 * : The date to assign generated referrals. If omitted, today's date will be used.
+	 * Accepts "year", "past", or "future", or any strtotime date format.
+	 * Set this to "year" to set each referral date in consecutive days starting with Jan 1st.
+	 * Set this to "past" to set each referral date in reverse consecutive days, starting with yesterday.
+	 * Set this to "future" to set each referral date in consecutive days, starting with tomorrow's date.
+	 *
 	 * [--format=<format>]
 	 * : Accepted values: progress, ids. Default: ids.
 	 *
@@ -70,10 +77,23 @@ class Generate_Sub_Command {
 					$status = $statuses[ rand( 0, 3 ) ];
 				}
 
+				if ( $assoc_args['date'] === 'year' ) {
+					$date = sprintf( 'January 01 + %s day', $i - 1 );
+				} elseif ( $assoc_args['date'] === 'past' ) {
+					$date = sprintf( 'today - %s day', $i );
+				} elseif ( $assoc_args['date'] === 'future' ) {
+					$date = sprintf( 'today + %s day', $i );
+				} else {
+					$date = $assoc_args['date'];
+				}
+
+
 				$referrals[ $affiliate_id ][] = affwp_add_referral( array(
 					'affiliate_id' => $affiliate_id,
 					'amount'       => $this->random_float( 0, 20 ),
 					'status'       => $status,
+					'campaign'     => $campaign,
+					'date'         => $date,
 				) );
 
 				if ( 'progress' === $format ) {
